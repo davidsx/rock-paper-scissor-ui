@@ -1,4 +1,4 @@
-import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import styles from './styles.module.scss';
 import WalletConnector from './WalletConnector';
 import useNoti from 'store/useNoti';
@@ -12,7 +12,6 @@ import { LAMPORTS_PER_SOL, SystemProgram, Transaction } from '@solana/web3.js';
 
 const BetCard: React.FC = () => {
     const { connection } = useConnection();
-    const anchorWallet = useAnchorWallet();
     const { publicKey, sendTransaction } = useWallet();
     const [amountValue, setAmountValue] = useState('');
 
@@ -24,8 +23,8 @@ const BetCard: React.FC = () => {
     const hand = useBet((s) => s.hand);
     const result = useBet((s) => s.result);
     const solBalance = useBet((s) => s.solBalance);
-    const sendBetTransaction = useBet((s) => s.sendBetTransaction);
-    const createBetTransaction = useBet((s) => s.createBetTransaction);
+    // const sendBetTransaction = useBet((s) => s.sendBetTransaction);
+    // const createBetTransaction = useBet((s) => s.createBetTransaction);
 
     const onChangeAmount: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
         if (/^[0-9.]*$/.test(e.currentTarget.value)) {

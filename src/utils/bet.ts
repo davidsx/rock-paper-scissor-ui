@@ -1,8 +1,6 @@
-import { Program, Provider } from '@project-serum/anchor';
 import { nu64, struct, u8 } from '@solana/buffer-layout';
 import { WalletContextState } from '@solana/wallet-adapter-react';
 import { ConfirmOptions, Connection, PublicKey, Signer, SystemProgram, Transaction, TransactionInstruction } from '@solana/web3.js';
-import { idl } from 'idl/rock_paper_scissor';
 import { BetHand, FightData, PlaceBetData } from 'types';
 import { RockPaperScissor } from 'types/rock_paper_scissor';
 
@@ -10,23 +8,23 @@ export const programId = new PublicKey('5ceMnTtAsQmKVBdQjUnMFzJdz2iK7Q8MytBNXEu5
 export const BET_SEED = 'bet';
 export const BET_SIZE = 44;
 
-export function getProvider(connection: Connection, wallet: WalletContextState): Provider | null {
-    if (!wallet.publicKey) return null;
-    const sendAndConfirm = async (tx: Transaction, signers?: Signer[] | undefined, opts?: ConfirmOptions | undefined) => {
-        return await wallet.sendTransaction(tx, connection);
-    };
-    const provider = { connection, publicKey: wallet.publicKey, sendAndConfirm };
-    return provider;
-}
+// export function getProvider(connection: Connection, wallet: WalletContextState): Provider | null {
+//     if (!wallet.publicKey) return null;
+//     const sendAndConfirm = async (tx: Transaction, signers?: Signer[] | undefined, opts?: ConfirmOptions | undefined) => {
+//         return await wallet.sendTransaction(tx, connection);
+//     };
+//     const provider = { connection, publicKey: wallet.publicKey, sendAndConfirm };
+//     return provider;
+// }
 
-// // export function get
+// // // export function get
 
-export function getProgramInstance(connection: Connection, wallet: WalletContextState) {
-    const provider = getProvider(connection, wallet);
-    if (!provider) return;
-    const program = new Program<RockPaperScissor>(idl, programId, provider);
-    return program;
-}
+// export function getProgramInstance(connection: Connection, wallet: WalletContextState) {
+//     const provider = getProvider(connection, wallet);
+//     if (!provider) return;
+//     const program = new Program<RockPaperScissor>(idl, programId, provider);
+//     return program;
+// }
 
 export async function getBetPDA(publicKey: PublicKey) {
     const betPubkey = await PublicKey.createWithSeed(publicKey, BET_SEED, programId);
