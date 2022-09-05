@@ -15,6 +15,7 @@ const BetCard: React.FC = () => {
     const { publicKey, sendTransaction } = useWallet();
     const [amountValue, setAmountValue] = useState('');
 
+    // TODO: show result after bet
     const sendSuccessNoti = useNoti((s) => s.sendSuccessNoti);
     const sendErrorNoti = useNoti((s) => s.sendErrorNoti);
 
@@ -45,7 +46,7 @@ const BetCard: React.FC = () => {
 
         const betAccount = await connection.getAccountInfo(betPubkey);
         if (betAccount === null) {
-            instructions.push(await createBetAccountInstruction(connection, publicKey, betPubkey))
+            await sendTransaction(new Transaction().add(await createBetAccountInstruction(connection, publicKey, betPubkey)), connection);
             await connection.confirmTransaction(await connection.requestAirdrop(betPubkey, amount * LAMPORTS_PER_SOL));
         }
 
@@ -55,7 +56,11 @@ const BetCard: React.FC = () => {
         transaction.add(...instructions);
 
         useBet.setState({ betPubkey });
-        if (transaction) sendTransaction(transaction, connection);
+        if (transaction) sendTransaction(transaction, connection).then(() => {
+            sendSuccessNoti('bet', 'Bet is sent');
+        });
+
+        // TODO: get bet result data and show
     };
 
     return (

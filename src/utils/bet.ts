@@ -6,7 +6,7 @@ import { RockPaperScissor } from 'types/rock_paper_scissor';
 
 export const programId = new PublicKey('5ceMnTtAsQmKVBdQjUnMFzJdz2iK7Q8MytBNXEu5CRYd');
 export const BET_SEED = 'bet';
-export const BET_SIZE = 44;
+export const BET_SIZE = 88;
 
 // export function getProvider(connection: Connection, wallet: WalletContextState): Provider | null {
 //     if (!wallet.publicKey) return null;
@@ -53,7 +53,7 @@ export function createPlaceBetInstruction(publicKey: PublicKey, betPubkey: Publi
     const placeBetDataLayout = struct<PlaceBetData>([u8('instruction'), nu64('amount')]);
     let placeBetData = Buffer.alloc(placeBetDataLayout.span);
     placeBetDataLayout.encode({ instruction: 0, amount }, placeBetData);
-    return new TransactionInstruction({ keys, programId, data: placeBetData })
+    return new TransactionInstruction({ keys, programId, data: placeBetData });
 }
 
 export function createFightInstruction(publicKey: PublicKey, betPubkey: PublicKey, hand: BetHand) {
